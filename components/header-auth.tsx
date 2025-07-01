@@ -15,7 +15,6 @@ export default async function HeaderAuth() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  console.log("userrr", user);
 
   if (!user) {
     return (
@@ -35,7 +34,6 @@ export default async function HeaderAuth() {
     .select("profile_picture")
     .eq("id", user.id)
     .single();
-    console.log("userdatata", userData)
 
   const picture = userData?.profile_picture;
   const role = user.user_metadata?.role;

@@ -45,8 +45,8 @@ export default function CancelSessionDialog({ sessionId, date, hourStart }: Canc
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="destructive" className="w-full">Cancel session</Button>
+      <DialogTrigger className="text-sm hover:bg-red-200 rounded">
+        Cancel session
       </DialogTrigger>
       <DialogContent>
         <DialogTitle>

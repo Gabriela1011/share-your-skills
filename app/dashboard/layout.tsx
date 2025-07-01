@@ -28,7 +28,7 @@ export default async function UserLayout({
           <RoleSidebar role={role} id={id} />
         </aside>
 
-        <section className="pl-6 w-full">{children}</section>
+        <section className="pl-6 max-w-full">{children}</section>
       </div>
     </div>
   );

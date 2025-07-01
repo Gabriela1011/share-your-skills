@@ -36,7 +36,7 @@ const skillCategories: SkillCategory[] = [
 ];
 
 export default function SkillSelector({ initialSkills }: SkillSelectorProps) {
-  console.log("initial skill:", initialSkills);
+
   const [skills, setSkills] = useState<Skill[]>(initialSkills || []);
   const [pendingCategory, setPendingCategory] = useState<SkillCategory | null>(null);
   const [focusedTooltipIndex, setFocusedTooltipIndex] = useState<number | null>(null);
@@ -46,7 +46,6 @@ export default function SkillSelector({ initialSkills }: SkillSelectorProps) {
     setSkills(initialSkills || [])
   }, [initialSkills]);
 
-  console.log("skills din usestate: ", skills);
 
   const isCategorySelected = (category: SkillCategory) =>
     skills.some((sk) => sk.category === category);

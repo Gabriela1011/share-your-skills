@@ -29,7 +29,6 @@ export default function ManageSubscriptions() {
   
   const sortedSubscriptions = [...subscriptions].sort((a, b) => a.price - b.price);
 
-  console.log("subscr", subscriptions)
 
   const handleAdd = (newSub: Subscription) => {
     setSubscriptions((prev) => [...prev, newSub]);

@@ -11,9 +11,6 @@ export async function saveSlot(prev:unknown, formData: FormData) {
     //extragem datele din formular
         const date = formData.get("date") as string;
         const hour_start = formData.get("hour_start") as string;
-
-        console.log("date de la formular", date);
-        console.log("hour_start de la formular", hour_start);
     
     if (!userId) {
         console.log("Error userId ");

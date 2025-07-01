@@ -47,7 +47,6 @@ export async function POST(req: NextRequest) {
     .update(paymentUpdate)
     .eq("session_id", sessionId);
     
-    console.log("eroare",paymentError);
 
   if (paymentError) {
     return NextResponse.json({ error: paymentError.message }, { status: 500 });

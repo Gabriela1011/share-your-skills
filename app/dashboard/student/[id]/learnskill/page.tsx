@@ -92,12 +92,4 @@ export default async function LearnANewSkill() {
             </div>
         </div>
     );
-    // return (<div>
-    //     <p>cautare profesor pentrumaterie de interes</p>
-    //     <p>implementare filtre</p>
-    //     <p>alege proful potrivit si rezerva o sesiune cu acesta </p>
-    //     <p>alege modul de desfasurare a lectiei daca profesorul pune la dispozitie atat modul online cat si fizic</p>
-    //     <p>tot la rezervare aplica cupon daca e cazul, si realizeaza plata</p>
-    //     <p>profesorul isi primest ebanii abia dupa ce apasa butonul de finalizare</p>
-    // </div>);
 }

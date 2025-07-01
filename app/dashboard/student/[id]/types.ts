@@ -11,7 +11,7 @@ export type Voucher = {
 
 export type Session = {
   id: string;
-  status: string;
+  status: 'scheduled' | 'completed' | 'cancelled' | 'cancellation_with_refund';
   created_at: string;
   available_slots: {
     id: string;

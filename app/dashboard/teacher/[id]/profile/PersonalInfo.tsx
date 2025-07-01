@@ -19,7 +19,7 @@ export default async function PersonalInfo() {
       .select("*")
       .eq("user_id", userId)
       .single();
-      console.log("profil", profile)
+    
 
     if(!profileError && profile) {
       profileData = {
@@ -37,7 +37,6 @@ export default async function PersonalInfo() {
       .select("level, description, price, skills(id, skill, category)")
       .eq("teacher_id", profile?.id);
 
-      console.log("Skills data from Supabase:", skills);
 
       if(!skillsError && skills) {
         skillsData = skills.map((sk) => {
@@ -54,7 +53,6 @@ export default async function PersonalInfo() {
             price: sk.price
           }
         })
-        console.log("skillsdataL:", skillsData);
       }
 
   }

@@ -35,7 +35,6 @@ export default async function getTeacherSessions() {
     .eq("teacher_id", teacherProfile.id)
     .order('created_at', {ascending: true});
       
-    console.log("sessionsss", sessions)
 
   if(sessionError){
     console.error('Eroare la fetch sessions:', sessionError);

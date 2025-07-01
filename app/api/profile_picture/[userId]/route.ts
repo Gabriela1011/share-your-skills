@@ -91,7 +91,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log("Profile picture updated:", publicUrl);
     return NextResponse.json({ profile_picture: publicUrl });
   } catch (error) {
     console.error("Server error:", error);

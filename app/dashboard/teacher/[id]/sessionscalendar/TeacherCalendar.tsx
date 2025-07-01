@@ -19,7 +19,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Textarea } from "@/components/ui/textarea"
 import { SessionStatus } from "@/app/dashboard/types"
 
-export const statusColor: Record<SessionStatus, string> = {
+const statusColor: Record<SessionStatus, string> = {
   scheduled: "bg-blue-500",
   cancelled: "bg-red-500",
   cancellation_with_refund: "bg-orange-500",
@@ -146,7 +146,7 @@ export default function TeacherCalendar({ sessions }: TeacherCalendarProps) {
                     
                     {selectedStatus === "completed" && (
                       <Popover>
-                        <PopoverTrigger className="border">Give Feedback</PopoverTrigger>
+                        <PopoverTrigger className="text-sm underline text-blue-900">Give Feedback</PopoverTrigger>
                         <PopoverContent>
                           <Textarea placeholder="Write feedback..." />
                           <button onClick={handleSendFeedback}>

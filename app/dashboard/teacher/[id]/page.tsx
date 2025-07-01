@@ -1,16 +1,18 @@
 import { createClient } from "@/utils/supabase/server";
-import { Progress } from "@radix-ui/react-progress";
+import { redirect } from "next/navigation";
 type Props = {
   params: Promise<{ id: string }>
 }
 
 export default async function TeacherDashboard({ params }: Props) {
-  const supabase = await createClient();
+ 
+ const { id } = await params;
+    redirect(`/dashboard/teacher/${id}/mylessons`)
 
   //fetch user data by id
   try{
-      const { id } = await params;
     
+    const supabase = await createClient();
       const { data: user, error } = await supabase
         .from("users")
         .select("*")

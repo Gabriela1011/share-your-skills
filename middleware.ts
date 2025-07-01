@@ -46,7 +46,6 @@ export async function middleware(request: NextRequest) {
   }
 
   const role = user.user_metadata?.role;
-  console.log("ROLUL UTILIZATORULUI ESTE:", role);
     
   //restrictie admin
   if(pathname.startsWith("/dashboard/admin") && role !== "admin"){

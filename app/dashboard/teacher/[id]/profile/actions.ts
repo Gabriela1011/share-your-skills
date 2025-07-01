@@ -73,12 +73,8 @@ export async function saveTeacherInfo(prev:unknown,formData: FormData) {
     //extragem datele din formular
     const bio = formData.get("bio") as string;
 
-     console.log("Raw experience_years from formData:", formData.get("experience_years"));
     const experienceYearsRaw = formData.get("experience_years");
     const experienceYears = experienceYearsRaw ? parseInt(experienceYearsRaw.toString(), 10) : 0;
-    console.log("Parsed experience_years:", experienceYears);
-   
-
 
     const language = formData.get("language") as string;
 
@@ -116,8 +112,6 @@ export async function saveTeacherInfo(prev:unknown,formData: FormData) {
     if(!validateSkills(skills)) {
       throw new Error("Invalid skill data. Please check your inputs.");
     }
-
-    console.log("skills din actions:", skills);
 
 
     for(const skill of skills) {
@@ -179,8 +173,6 @@ export async function saveTeacherInfo(prev:unknown,formData: FormData) {
             });
         }
       }
-    
-    console.log("Profile and skills saved successfully!");
     
 
     revalidatePath(`/dashboard/teacher/${userId}/profile`);

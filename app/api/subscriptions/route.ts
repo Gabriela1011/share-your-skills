@@ -15,7 +15,6 @@ export async function GET() {
         )
     `);
 
-     console.dir(data, { depth: null });
 
     if(error)
         return NextResponse.json({ error: error.message }, { status: 500 });
@@ -28,7 +27,6 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const features = body.features;
 
-    console.log("body data", body)
 
     //se creeaza abonamentul
     const { data: subscription, error } = await supabase
@@ -52,7 +50,6 @@ export async function POST(req: NextRequest) {
             features.map((featureText: string) => ({ feature: featureText })),
             { onConflict: "feature" }
         )
-        console.log(upsertFeatures.error)
     
     if (upsertFeatures.error)
         return NextResponse.json({ error: upsertFeatures.error.message }, { status: 500 });

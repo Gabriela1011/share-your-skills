@@ -18,7 +18,6 @@ export default function ActivePlan({currentPlan} : Props) {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
-    console.log("planul activ", currentPlan)
 
    // verificam daca este abonament platit
     const isPaidPlan = currentPlan?.plan_type !== "FREE";

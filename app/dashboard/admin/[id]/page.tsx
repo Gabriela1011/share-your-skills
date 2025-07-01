@@ -1,4 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
+import PaymentsTable from "./PaymentsTable";
 
 type Props = {
   params: Promise<{ id: string }>
@@ -7,7 +8,6 @@ type Props = {
 export default async function AdminDashboard({ params }: Props) {
   const supabase = await createClient();
 
-  //fetch user data by id
   try{
       const { id } = await params;
     
@@ -18,8 +18,7 @@ export default async function AdminDashboard({ params }: Props) {
         .single();
     
         if(user.id !==  id ){
-          
-          return <div>Nu ai acces la aceasta pagina</div>
+          return <div>You don't have access.</div>
         }
 
         if(error || !user){
@@ -27,8 +26,9 @@ export default async function AdminDashboard({ params }: Props) {
         }
     
         return (
-          <div>
-            
+          <div className="">
+            <h1 className="mb-2 text-center font-semibold text-xl">All Session Payments</h1>
+            <PaymentsTable />
           </div>
         );
   } catch (err) {

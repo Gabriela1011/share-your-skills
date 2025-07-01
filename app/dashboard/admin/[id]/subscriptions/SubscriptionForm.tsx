@@ -14,7 +14,6 @@ interface Props {
 export default function SubscriptionForm({ onSubmit, onCancel, initialData }: Props) {
     const [features, setFeatures] = useState<string[]>(initialData?.subscription_features.map((sf) => sf.features.feature) || ['']);
 
-    console.log("features din baza de date", features)
     const isEditing = !!initialData; // daca exista initialData atunci e true si se editeaza formularul, altfel e false
 
     const addFeatureField = () => setFeatures([...features, '']);
@@ -63,7 +62,6 @@ export default function SubscriptionForm({ onSubmit, onCancel, initialData }: Pr
         if(res.ok) {
             const data = await res.json();
             onSubmit(data);
-            console.log("data de la patch", data);
         }
     }
 

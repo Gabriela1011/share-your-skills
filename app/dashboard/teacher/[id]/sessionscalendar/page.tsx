@@ -4,12 +4,12 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { RawSubscription } from "@/app/dashboard/types";
 import AddTimeSlot, { SlotsProps } from "@/components/myComponents/AddTimeSlot";
-import { Dialog, DialogOverlay } from "@/components/ui/dialog";
+import { Dialog } from "@/components/ui/dialog";
 import { DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import Legend from "@/components/myComponents/Legend";
-import { parse, isAfter, compareAsc, format } from "date-fns";
 import AvailableSlotsList from "@/components/myComponents/AvailableSlotsList";
-import { revalidatePath } from "next/cache";
+import getSlots from "../getSlots";
+import DialogAddTimeSlot from "@/components/myComponents/DialogAddTimeSlot";
 
 
 export default async function CalendarPage() {
@@ -35,17 +35,15 @@ export default async function CalendarPage() {
     }
 
   
-
   //verifica abonamentul activ al profesorului
   const { data: subscription, error: subscriptionError } = await supabase
     .from("teacher_profiles")
     .select( `subscriptions (plan_type)` )
     .eq("id", profile.id)
     .single();
-    console.log("abonament", subscription)
 
   if(subscriptionError) {
-    return redirect ("/dashboard/teacher/${UserId}/sessionscalendar/unauthorizedCalendar");
+    return redirect (`/dashboard/teacher/${user.id}/sessionscalendar/unauthorizedCalendar`);
   }
 
   //daca nu are abonament BASIC sau PRO, nu afiseaza nimic
@@ -58,43 +56,11 @@ export default async function CalendarPage() {
    }
   
   const sessions = await getTeacherSessions();
-
-
-  const { data: slotsRaw, error: slotsError } = await supabase
-   .from("available_slots")
-   .select("*")
-   .eq("teacher_id", profile.id)
-   .eq("is_booked", false)
-
-  const now = new Date();
-
-  const slots: SlotsProps[] = (slotsRaw ?? []).map((slot) => {
-    // slot.date = '2025-06-20' (string)
-    // slot.hour_start = '13:00:00' (string)
-    const combined = `${slot.date} ${slot.hour_start}`
-    const dateTime = parse(combined, "yyyy-MM-dd HH:mm:ss", new Date());
-    return { ...slot, dateTime }
-  })
-  .filter((slot) => isAfter(slot.dateTime, now))
-  .sort((a, b) => compareAsc(a.dateTime, b.dateTime));
+  const slots = await getSlots(profile.id);
 
   return (
   <div className="flex flex-col items-start gap-6">
-    <Dialog modal={false}>
-      <DialogTrigger className="p-2 mt-4 rounded-md bg-gradient-to-r from-blue-400 to-indigo-400 text-white font-semibold hover:shadow-xl hover:text-black">
-        Add Time Slot
-      </DialogTrigger>
-      
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Add Available Time Slots</DialogTitle>
-          <DialogDescription>
-            Select a date and start time to create a new slot.
-          </DialogDescription>
-          <AddTimeSlot slots={slots} />
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+    <DialogAddTimeSlot slots={slots} />
 
     <div className="flex flex-wrap w-full justify-between items-start gap-6">
       <TeacherCalendar sessions={sessions} />

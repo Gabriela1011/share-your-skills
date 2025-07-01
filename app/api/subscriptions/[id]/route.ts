@@ -18,7 +18,6 @@ export async function DELETE(req: NextRequest, { params } : { params: Promise<{ 
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     
-console.log("rolul utilizatorului atunci cand sterge un abonament", user.user_metadata.role);
 
     if(user.user_metadata.role !== 'admin') {
         return NextResponse.json({ message: "You don't have permission to delete subscriptions." }, { status: 403 });
