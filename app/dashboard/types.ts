@@ -68,8 +68,7 @@ export interface TeacherProfileWithId extends TeacherProfile{
 
 
 //pt admin dashboard, sa vada toate sesiunile de invatare
-//DE VERIFICAT!!!!!!
-export type SessionStatus = 'scheduled' | 'cancelled' | 'cancellation with refund' | 'completed'
+export type SessionStatus = 'scheduled' | 'cancelled' | 'cancellation_with_refund' | 'completed'
 
 export type Session = {
   id: string

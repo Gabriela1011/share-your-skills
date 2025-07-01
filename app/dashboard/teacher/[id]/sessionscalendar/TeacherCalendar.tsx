@@ -11,11 +11,15 @@ import {
   DialogTrigger,
   DialogContent,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog"
 import { TeacherCalendarSession } from "./types"
 import { Calendar } from "@/components/ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Textarea } from "@/components/ui/textarea"
+import { SessionStatus } from "@/app/dashboard/types"
 
-const statusColor = {
+export const statusColor: Record<SessionStatus, string> = {
   scheduled: "bg-blue-500",
   cancelled: "bg-red-500",
   cancellation_with_refund: "bg-orange-500",
@@ -26,12 +30,15 @@ interface TeacherCalendarProps {
   sessions: TeacherCalendarSession[]
 }
 
+
+
 export default function TeacherCalendar({ sessions }: TeacherCalendarProps) {
   const [open, setOpen] = useState(false)
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined)
   const [selectedStatus, setSelectedStatus] = useState<
     "scheduled" | "cancelled" | "completed" | "cancellation_with_refund" | null
   >(null)
+  //state feedback
 
   const openDialog = (date: Date, status: typeof selectedStatus) => {
     setSelectedDate(date)
@@ -46,8 +53,12 @@ export default function TeacherCalendar({ sessions }: TeacherCalendarProps) {
       session.status === selectedStatus
   )
 
+  const handleSendFeedback = async () => {
+
+  }
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={setOpen} modal={false}>
       <Calendar
         mode="single"
         selected={selectedDate}
@@ -105,30 +116,50 @@ export default function TeacherCalendar({ sessions }: TeacherCalendarProps) {
            {selectedStatus} sessions –{" "}
            {selectedDate ? format(selectedDate, "dd.MM.yyyy") : ""}
          </DialogTitle>
-
+        
+        <DialogDescription></DialogDescription>
+        
          <div className="mt-4 space-y-2">
-           {sessionsForDay.length === 0 ? (
-            <p className="text-muted-foreground">No sessions for this day.</p>
-          ) : (
+           {sessionsForDay.length !== 0 && (
             sessionsForDay.map((session) => (
               <div key={session.id} className="border p-2 rounded bg-white/70">
                 <div className="flex justify-between">
-                  <strong>{session.teacher_skills.skills.skill}</strong>
-                  <span>
-                    {format(
-                      new Date(`1970-01-01T${session.available_slots.hour_start}`),
-                      "HH:mm"
-                    )}{" "}
-                    -{" "}
-                    {format(
-                      new Date(`1970-01-01T${session.available_slots.hour_end}`),
-                      "HH:mm"
+                  <div>
+                    <strong>{session.teacher_skills.skills.skill}</strong>
+                    <p className="text-sm text-muted-foreground">
+                      Student: {session.student_profiles.users.full_name}
+                    </p>
+                  </div>
+                  
+                  <div className="flex flex-col">
+                    <span>
+                      {format(
+                        new Date(`1970-01-01T${session.available_slots.hour_start}`),
+                        "HH:mm"
+                      )}{" "}
+                      -{" "}
+                      {format(
+                        new Date(`1970-01-01T${session.available_slots.hour_end}`),
+                        "HH:mm"
+                      )}
+                    </span>
+                    
+                    {selectedStatus === "completed" && (
+                      <Popover>
+                        <PopoverTrigger className="border">Give Feedback</PopoverTrigger>
+                        <PopoverContent>
+                          <Textarea placeholder="Write feedback..." />
+                          <button onClick={handleSendFeedback}>
+                            Send
+                          </button>
+                        </PopoverContent>
+                      </Popover>
                     )}
-                  </span>
+                    
+                  </div>
+                 
                 </div>
-                <p className="text-sm text-muted-foreground">
-                  Student: {session.student_profiles.users.full_name}
-                </p>
+                
               </div>
             ))
           )}

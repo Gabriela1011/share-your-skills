@@ -75,7 +75,8 @@ export default function ActivePlan({currentPlan} : Props) {
                             </p>
                         </div>
                         <div className="text-indigo-700 text-sm font-medium">
-                            {differenceInDays(new Date(currentPlan.ended_at!), new Date(currentPlan.started_at!))} days active
+                            {/* pentru a evita valorile negative */}
+                            {Math.max(0, differenceInDays(new Date(currentPlan.ended_at!), new Date()))} days active
                         </div>
                     </div>
                     

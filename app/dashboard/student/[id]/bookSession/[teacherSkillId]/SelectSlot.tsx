@@ -22,11 +22,12 @@ export interface SelectSlotProps {
   teacherSkillId: string;
   studentId: string;
   price: number;
+  revalidate?: boolean;
 }
 
 
 
-export default function SelectSlot({ teacherSkillId, studentId, price }: SelectSlotProps){
+export default function SelectSlot({ teacherSkillId, studentId, price, revalidate=false }: SelectSlotProps){
     const [slots, setSlots] = useState<SlotsProps[] | null>(null);
     const [loading, setLoading] = useState(true);
     const [showDialog, setShowDialog] = useState(false);
@@ -35,11 +36,9 @@ export default function SelectSlot({ teacherSkillId, studentId, price }: SelectS
     const [sessionPrice, setSessionPrice] = useState(price);
     const [selectedVoucher, setSelectedVoucher] = useState<Voucher | null>(null)
    // const [loadingPayment, setLoadingPayment] = useState(false);
-
    const router = useRouter();
 
-    useEffect(() => {
-        async function fetchSlots() {
+    async function fetchSlots() {
             try{
                 const res = await fetch(`/api/teacherSkills/${teacherSkillId}/slots`);
                 
@@ -55,8 +54,9 @@ export default function SelectSlot({ teacherSkillId, studentId, price }: SelectS
             } finally {
                 setLoading(false);
             }
-        }
-
+    }
+        
+    useEffect(() => {
         fetchSlots();
     }, [teacherSkillId])
 
@@ -114,6 +114,12 @@ export default function SelectSlot({ teacherSkillId, studentId, price }: SelectS
 
             toast.success("Payment registered successfully!");
             setShowDialog(false); 
+
+            await fetchSlots();
+
+            if(revalidate) {
+                router.refresh();
+            }
 
         }catch(err){
             console.error("Payment error:", JSON.stringify(err, null, 2));

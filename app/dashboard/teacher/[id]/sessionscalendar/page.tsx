@@ -18,7 +18,7 @@ export default async function CalendarPage() {
   const userId = user?.id;
 
   if (!userId) {
-    console.error("nu exista user");
+    console.error("user doesn't exist");
     return;
   }
 
@@ -30,9 +30,11 @@ export default async function CalendarPage() {
     .single();
 
     if(profileError || !profile) {
-      console.error('Eroare la extragerea id-ului profesorului:', profileError);
+      console.error('Error retrieving teacherID', profileError);
       return;
     }
+
+  
 
   //verifica abonamentul activ al profesorului
   const { data: subscription, error: subscriptionError } = await supabase
@@ -56,7 +58,7 @@ export default async function CalendarPage() {
    }
   
   const sessions = await getTeacherSessions();
-  console.log("Teacher sessions din supabase:", sessions);
+
 
   const { data: slotsRaw, error: slotsError } = await supabase
    .from("available_slots")

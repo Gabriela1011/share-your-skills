@@ -8,7 +8,6 @@ export async function POST(req: NextRequest) {
 
   const {
     slotId,
-    studentId,
     teacherSkillId,
     voucherId,
     voucherType,
@@ -45,7 +44,6 @@ export async function POST(req: NextRequest) {
         teacher_id: teacherId,
         student_id: studentId,
         teacher_skill_id: teacherSkillId,
-        voucher_id: voucherId,
         slot_id: slotId,
         status: "scheduled",
       })
@@ -91,7 +89,7 @@ export async function POST(req: NextRequest) {
         commission,
         teacher_earning: teacherEarning,
         platform_income: platformIncome,
-        payment_status: "pending",
+        payment_status: "completed",
       })
 
     if (paymentError) throw paymentError.message
@@ -105,18 +103,6 @@ export async function POST(req: NextRequest) {
 
       if (deleteError) throw deleteError
     }
-
-    //marcheaza slotul ca rezervat
-    // const { data: updatedSlot, error: updateSlotError } = await supabase
-    //     .from("available_slots")
-    //     .update({ is_booked: true })
-    //     .eq("id", slotId)
-    //     .select()
-    //     .throwOnError();
-
-    //     console.log("updated data is book", updatedSlot?.is_booked)
-
-    //if (updateSlotError) throw updateSlotError.message;
 
     return NextResponse.json({ success: true })
   } catch (error) {
